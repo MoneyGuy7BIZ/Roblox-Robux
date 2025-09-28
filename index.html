@@ -1,0 +1,707 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Roblox Robux Demo • Green Black</title>
+
+  <!--
+    Green & Black Roblox-style Mock Generator
+    -----------------------------------------------------------
+    IMPORTANT: This is a FRONT-END DEMO ONLY. It does NOT actually
+    create or transfer Robux. It's intended as a mockup / user
+    interface example for demonstration or entertainment.
+    -----------------------------------------------------------
+  -->
+
+  <style>
+    /* Reset */
+    :root{
+      --bg:#050607;
+      --panel:#0b0f0a;
+      --accent:#0dfc59;
+      --muted:#98ffb8aa;
+      --glass: rgba(255,255,255,0.02);
+      --card: #07100b;
+      --success:#00d24a;
+      --danger:#ff3b3b;
+      --mono: "Segoe UI Mono", "Roboto Mono", "Courier New", monospace;
+      --ui: "Inter", "Segoe UI", Roboto, Arial, sans-serif;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:var(--ui);
+      background:
+        radial-gradient(1200px 600px at 10% 10%, rgba(13,255,120,0.03), transparent 10%),
+        linear-gradient(180deg, #020202 0%, var(--bg) 100%);
+      color:#dfffe6;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      letter-spacing:0.2px;
+    }
+
+    /* Layout */
+    .wrap{
+      max-width:980px;
+      margin:48px auto;
+      padding:28px;
+      border-radius:14px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
+      border:1px solid rgba(13,255,120,0.03);
+      overflow:hidden;
+    }
+
+    header{
+      display:flex;
+      align-items:center;
+      gap:16px;
+      margin-bottom:22px;
+    }
+    .logo{
+      width:56px;height:56px;
+      border-radius:12px;
+      display:grid;
+      place-items:center;
+      background:
+        linear-gradient(135deg, rgba(13,255,120,0.12), rgba(0,0,0,0.25));
+      border: 1px solid rgba(13,255,120,0.18);
+      box-shadow: 0 6px 20px rgba(7,25,10,0.6);
+      font-weight:800;
+      color:var(--accent);
+      font-family:var(--mono);
+      font-size:20px;
+      letter-spacing:1px;
+    }
+    h1{font-size:20px;margin:0}
+    p.lead{margin:0;color:var(--muted);font-size:13px}
+
+    /* Card */
+    .card{
+      margin-top:18px;
+      display:grid;
+      grid-template-columns: 1fr 360px;
+      gap:22px;
+    }
+
+    .panel{
+      background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.03));
+      border-radius:12px;
+      padding:20px;
+      border:1px solid rgba(13,255,120,0.03);
+      box-shadow: 0 6px 18px rgba(1,1,1,0.6);
+    }
+
+    /* Left column styling */
+    .instructions{
+      font-size:14px;
+      color:#bfffd6;
+      line-height:1.6;
+    }
+    .muted{
+      color:var(--muted);
+      font-size:13px;
+    }
+    .input-group{
+      margin-top:14px;
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+    input[type="text"]{
+      flex:1;
+      padding:12px 14px;
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,0.04);
+      background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.06));
+      color: #eafff2;
+      font-size:14px;
+      outline: none;
+      transition: box-shadow .18s, transform .12s;
+    }
+    input[type="text"]:focus{
+      box-shadow: 0 10px 30px rgba(13,255,120,0.06);
+      transform: translateY(-1px);
+      border-color: rgba(13,255,120,0.12);
+    }
+
+    .btn{
+      display:inline-grid;
+      place-items:center;
+      padding:10px 14px;
+      border-radius:10px;
+      background:linear-gradient(180deg, rgba(13,255,120,0.12), rgba(0,0,0,0.12));
+      border:1px solid rgba(13,255,120,0.12);
+      color:var(--accent);
+      cursor:pointer;
+      font-weight:700;
+      letter-spacing:0.6px;
+      user-select:none;
+    }
+    .btn:active{transform:translateY(1px)}
+    .btn.ghost{
+      background:transparent;
+      border:1px dashed rgba(255,255,255,0.04);
+      color:var(--muted);
+      font-weight:600;
+    }
+
+    /* Right column (options) */
+    .options{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+    .amount-card{
+      padding:12px;
+      border-radius:10px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.03));
+      border:1px solid rgba(13,255,120,0.03);
+    }
+    .amount-list{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:10px;
+    }
+    .chip{
+      padding:8px 12px;
+      border-radius:999px;
+      font-weight:700;
+      cursor:pointer;
+      border:1px solid rgba(255,255,255,0.03);
+      background:rgba(0,0,0,0.2);
+      color:var(--muted);
+    }
+    .chip.active{
+      background: linear-gradient(90deg, rgba(13,255,120,0.12), rgba(0,0,0,0.12));
+      color:var(--accent);
+      border-color: rgba(13,255,120,0.12);
+      box-shadow: 0 8px 24px rgba(4,12,6,0.6);
+      transform: translateY(-2px);
+    }
+
+    .slider{
+      width:100%;
+      margin-top:12px;
+    }
+
+    /* Footer small */
+    .small{
+      font-size:12px;
+      color:var(--muted);
+      margin-top:10px;
+    }
+
+    /* Loading overlay */
+    .overlay{
+      position:fixed;
+      inset:0;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      background:linear-gradient(180deg, rgba(2,2,2,0.65), rgba(2,2,2,0.85));
+      z-index:9999;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
+    .overlay.show{display:flex}
+
+    .loader-card{
+      width:420px;
+      max-width:90%;
+      padding:26px;
+      border-radius:12px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.18));
+      border:1px solid rgba(13,255,120,0.06);
+      box-shadow: 0 18px 72px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
+      color:#dfffe6;
+      text-align:center;
+    }
+
+    .progress{
+      height:12px;
+      width:100%;
+      background: rgba(255,255,255,0.03);
+      border-radius:10px;
+      margin-top:18px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,0.02);
+    }
+    .bar{
+      height:100%;
+      width:0%;
+      background: linear-gradient(90deg, rgba(13,255,120,0.4), rgba(13,255,120,0.9));
+      box-shadow: 0 6px 30px rgba(13,255,120,0.06);
+      transition: width 0.5s ease;
+    }
+
+    .dots{
+      display:inline-block;margin-left:6px;
+      opacity:0.9;font-weight:700;color:var(--accent);
+    }
+
+    /* Success screen */
+    .success-card{
+      display:none;
+      padding:22px;
+      border-radius:12px;
+      background: linear-gradient(180deg, #071a0f 0%, #08140e 100%);
+      border:1px solid rgba(0,210,80,0.08);
+      color:#dcffe9;
+      text-align:center;
+    }
+    .success-card.show{display:block}
+    .success-check{
+      width:86px;height:86px;border-radius:999px;
+      display:grid;place-items:center;margin:0 auto 12px;
+      background: radial-gradient(circle at 30% 25%, rgba(0,210,80,0.16), transparent 30%);
+      border:1px solid rgba(0,210,80,0.12);
+      box-shadow: 0 10px 30px rgba(0,210,80,0.06), inset 0 2px 0 rgba(255,255,255,0.02);
+      font-size:36px;color:var(--success);font-weight:800;
+    }
+
+    .footnote{
+      font-size:12px;
+      color:rgba(255,255,255,0.6);
+      margin-top:12px;
+    }
+
+    /* Responsive */
+    @media (max-width:920px){
+      .card{grid-template-columns:1fr}
+      header{gap:10px}
+    }
+
+    /* extra visual flourishes (deliberately verbose so this file looks "rich") */
+    .neon{
+      text-shadow:
+        0 1px 0 rgba(255,255,255,0.02),
+        0 6px 20px rgba(13,255,120,0.07),
+        0 12px 30px rgba(13,255,120,0.04);
+    }
+    .ghost-line{
+      margin-top:12px;border-top:1px dashed rgba(255,255,255,0.02);padding-top:10px;color:var(--muted)
+    }
+
+    /* small utilities */
+    .row{display:flex;gap:10px;align-items:center}
+    .col{display:flex;flex-direction:column;gap:8px}
+
+    /* accessibility */
+    input:focus-visible, button:focus-visible { outline:2px solid rgba(13,255,120,0.14); outline-offset:2px; }
+  </style>
+</head>
+<body>
+
+  <div class="wrap" role="main" aria-labelledby="title">
+    <header>
+      <div class="logo" aria-hidden="true">RBX</div>
+      <div>
+        <h1 id="title" class="neon">Robux Mock Generator — Demo</h1>
+        <p class="lead">Green & black themed UI demo • type username → choose amount → loading → success</p>
+      </div>
+    </header>
+
+    <div class="card" aria-live="polite">
+      <!-- LEFT: inputs & explanation -->
+      <section class="panel" aria-label="Input panel">
+        <div class="instructions">
+          <strong>How it works (demo):</strong>
+          <div class="muted" style="margin-top:6px;">
+            1) Type a valid Roblox username (for demo purposes only).<br>
+            2) Select the amount of Robux you'd like from the chips or slider.<br>
+            3) Press <em>Generate</em> to run the mock process — you'll see a loading screen and then a success confirmation.
+          </div>
+        </div>
+
+        <div class="input-group" style="margin-top:18px;">
+          <label for="username" class="muted" style="min-width:88px">Roblox username</label>
+          <input id="username" type="text" placeholder="Type Roblox username..." autocomplete="off" aria-label="Roblox username" />
+          <button id="clearBtn" class="btn ghost" title="Clear username">Clear</button>
+        </div>
+
+        <div class="muted" style="margin-top:14px">
+          Tip: This demo won't contact Roblox or change any accounts. Use it as an interface sample.
+        </div>
+
+        <div style="margin-top:18px" class="col">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div class="muted">Selected amount</div>
+            <div id="selectedLabel" style="font-weight:800;color:var(--accent)">0 vb</div>
+          </div>
+
+          <div class="amount-card">
+            <div class="amount-list" id="chipContainer" role="list" aria-label="Amount options">
+              <!-- chips inserted by JS for reusability -->
+            </div>
+
+            <input type="range" id="slider" class="slider" min="0" max="10000" step="50" value="0" aria-label="Amount slider" />
+
+            <div class="row" style="margin-top:10px;align-items:center;justify-content:space-between">
+              <div class="small muted">Quick pick or slide to fine-tune</div>
+              <div>
+                <button id="halfBtn" class="btn ghost" style="margin-right:8px">Half</button>
+                <button id="maxBtn" class="btn">Max</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:20px;display:flex;gap:12px;align-items:center">
+          <button id="generateBtn" class="btn" aria-label="Start generation">Generate</button>
+          <button id="demoInfo" class="btn ghost">Demo Info</button>
+        </div>
+
+        <div class="ghost-line">
+          <div class="small">Security: This page does not collect credentials or attempt to access Roblox accounts.</div>
+        </div>
+
+        <div class="footnote">
+          <strong>Disclaimer:</strong> This is purely cosmetic. Real Robux transactions require Roblox's platform.
+        </div>
+      </section>
+
+      <!-- RIGHT: preview / result area -->
+      <aside class="panel options" aria-label="Preview and result area">
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div class="muted">Preview</div>
+            <div class="muted" id="previewUsername">—</div>
+          </div>
+          <div class="card" style="padding:14px;border-radius:10px;background:rgba(0,0,0,0.25);">
+            <div style="display:flex;gap:12px;align-items:center">
+              <div style="width:56px;height:56px;border-radius:8px;background:linear-gradient(180deg,#07100b,#05110a);display:grid;place-items:center;font-weight:700;color:var(--accent)">🔒</div>
+              <div>
+                <div style="font-weight:800;font-size:15px" id="previewAmount">0 vb</div>
+                <div class="muted" style="font-size:13px">Demo result preview</div>
+              </div>
+            </div>
+
+            <div class="muted" style="margin-top:12px;font-size:13px">Status: <span id="previewStatus">waiting</span></div>
+          </div>
+
+          <div class="success-card" id="successCard" role="status" aria-live="polite">
+            <div class="success-check">✓</div>
+            <div style="font-weight:800;font-size:16px">Success!</div>
+            <div class="muted" style="margin-top:8px" id="successText">0 Robux have been added to <strong id="sUser">—</strong></div>
+            <div class="muted footnote" style="margin-top:10px">Again: this is a user interface simulation only.</div>
+            <div style="margin-top:12px">
+              <button id="newOne" class="btn ghost">Try another demo</button>
+            </div>
+          </div>
+
+          <div style="margin-top:auto" class="muted">
+            Made as a demo • no network requests • safe to host on GitHub Pages.
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <!-- Loading overlay -->
+  <div class="overlay" id="overlay" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="loader-card" role="alert" aria-live="assertive">
+      <div style="font-size:18px;font-weight:800;color:var(--accent)">Processing<span class="dots" id="dots">.</span></div>
+      <div class="muted" style="margin-top:6px" id="loaderSub">Connecting to the mock server...</div>
+
+      <div class="progress" aria-hidden="false" style="margin-top:14px">
+        <div class="bar" id="progressBar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
+      </div>
+
+      <div class="small muted" style="margin-top:14px">Please wait — demo in progress. This does not contact Roblox.</div>
+    </div>
+  </div>
+
+  <script>
+    /**********************************************************************
+     * Robux Mock Generator - Single-file Demo
+     * - No network calls
+     * - All behavior simulated client-side only
+     * - Important: this is a cosmetic demo; it does not grant Robux
+     **********************************************************************/
+
+    (function(){
+      // Elements
+      const usernameInput = document.getElementById('username');
+      const clearBtn = document.getElementById('clearBtn');
+      const generateBtn = document.getElementById('generateBtn');
+      const chipContainer = document.getElementById('chipContainer');
+      const slider = document.getElementById('slider');
+      const selectedLabel = document.getElementById('selectedLabel');
+      const previewAmount = document.getElementById('previewAmount');
+      const previewUsername = document.getElementById('previewUsername');
+      const previewStatus = document.getElementById('previewStatus');
+      const overlay = document.getElementById('overlay');
+      const progressBar = document.getElementById('progressBar');
+      const dots = document.getElementById('dots');
+      const loaderSub = document.getElementById('loaderSub');
+      const successCard = document.getElementById('successCard');
+      const successText = document.getElementById('successText');
+      const sUser = document.getElementById('sUser');
+      const newOne = document.getElementById('newOne');
+      const halfBtn = document.getElementById('halfBtn');
+      const maxBtn = document.getElementById('maxBtn');
+      const previewStatusText = previewStatus;
+
+      // Quick pick amounts (common Robux tiers for demo)
+      const amounts = [50, 100, 250, 400, 800, 1000, 2500, 4500, 10000];
+
+      // Build chips
+      function createChips(){
+        amounts.forEach(a=>{
+          const chip = document.createElement('button');
+          chip.className = 'chip';
+          chip.textContent = a + ' vb';
+          chip.setAttribute('data-amount', a);
+          chip.setAttribute('role','button');
+          chip.addEventListener('click', ()=> {
+            setAmount(a);
+            setActiveChip(chip);
+          });
+          chipContainer.appendChild(chip);
+        });
+      }
+
+      function setActiveChip(activeBtn){
+        const chips = chipContainer.querySelectorAll('.chip');
+        chips.forEach(c => c.classList.remove('active'));
+        if(activeBtn) activeBtn.classList.add('active');
+      }
+
+      // Set amount (both slider and label)
+      function setAmount(val){
+        const v = Number(val) || 0;
+        slider.value = v;
+        selectedLabel.textContent = v + ' vb';
+        previewAmount.textContent = v + ' vb';
+      }
+
+      // Toggle overlay
+      function showOverlay(show){
+        if(show){
+          overlay.classList.add('show');
+          overlay.setAttribute('aria-hidden','false');
+        } else {
+          overlay.classList.remove('show');
+          overlay.setAttribute('aria-hidden','true');
+        }
+      }
+
+      // Simulate progress with staged updates
+      function simulateProgress(onComplete, opts = {}){
+        let progress = 0;
+        progressBar.style.width = '0%';
+        progressBar.setAttribute('aria-valuenow', '0');
+        loaderSub.textContent = opts.startText || 'Initializing...';
+        dots.textContent = '.';
+        showOverlay(true);
+
+        const stageTexts = opts.stageTexts || [
+          'Validating username...',
+          'Preparing Robux package...',
+          'Applying anti-fraud checks (demo)...',
+          'Finalizing transfer (simulated)...'
+        ];
+
+        // Stage durations (ms)
+        const durations = [900, 1200, 1100, 1400];
+
+        // update dots
+        let dotTick = 0;
+        const dotInt = setInterval(()=> {
+          dotTick = (dotTick + 1) % 4;
+          dots.textContent = '.'.repeat(dotTick || 1);
+        }, 400);
+
+        // progress increment function
+        let t = 0;
+        function nextStage(){
+          if(t >= stageTexts.length){
+            // finish animation
+            setTimeout(()=> {
+              clearInterval(dotInt);
+              progressBar.style.width = '100%';
+              progressBar.setAttribute('aria-valuenow','100');
+              loaderSub.textContent = 'Completing...';
+            }, 300);
+
+            setTimeout(()=> {
+              clearInterval(dotInt);
+              showOverlay(false);
+              onComplete();
+            }, 900);
+            return;
+          }
+
+          const text = stageTexts[t];
+          loaderSub.textContent = text;
+          // animate progress to a mid value for this stage
+          const target = 20 + (t * 20) + Math.floor(Math.random()*10);
+          const start = parseInt(progressBar.style.width) || 0;
+          const stepCount = 20;
+          let step = 0;
+          const perStep = (target - start)/stepCount;
+          const stageInterval = setInterval(()=> {
+            step++;
+            const cur = Math.min(98, Math.round(start + perStep*step));
+            progressBar.style.width = cur + '%';
+            progressBar.setAttribute('aria-valuenow', cur);
+            if(step >= stepCount){
+              clearInterval(stageInterval);
+              // small pause then next
+              setTimeout(()=>{
+                t++;
+                nextStage();
+              }, 250);
+            }
+          }, Math.max(20, Math.floor(durations[t]/stepCount)));
+        }
+
+        // start
+        setTimeout(nextStage, 250);
+      }
+
+      // Simple username validation (demo-only)
+      function isValidUsername(n){
+        if(!n) return false;
+        // Roblox usernames rules (rough): 3-20 chars, letters/numbers/_ allowed (we won't enforce strictly)
+        return n.trim().length >= 3 && n.trim().length <= 20;
+      }
+
+      // Wire events
+      function wire(){
+        createChips();
+
+        // click chips default first chip
+        const first = chipContainer.querySelector('.chip');
+        if(first) {
+          first.click();
+        }
+
+        slider.addEventListener('input', (e) => {
+          const v = Number(e.target.value);
+          setAmount(v);
+          // remove active chip highlight
+          setActiveChip(null);
+        });
+
+        clearBtn.addEventListener('click', ()=>{
+          usernameInput.value = '';
+          previewUsername.textContent = '—';
+          previewStatus.textContent = 'waiting';
+          usernameInput.focus();
+        });
+
+        // quick buttons
+        halfBtn.addEventListener('click', ()=>{
+          const val = Math.floor(Number(slider.max)/2);
+          setAmount(val);
+          setActiveChip(null);
+        });
+        maxBtn.addEventListener('click', ()=>{
+          const val = Number(slider.max);
+          setAmount(val);
+          setActiveChip(null);
+        });
+
+        usernameInput.addEventListener('input', ()=>{
+          const name = usernameInput.value.trim();
+          previewUsername.textContent = name || '—';
+        });
+
+        generateBtn.addEventListener('click', ()=>{
+          const name = usernameInput.value.trim();
+          const amount = Number(slider.value) || 0;
+
+          if(!isValidUsername(name)){
+            // highlight error quickly
+            usernameInput.style.boxShadow = '0 10px 30px rgba(255,59,59,0.12)';
+            usernameInput.style.borderColor = 'rgba(255,59,59,0.18)';
+            setTimeout(()=> {
+              usernameInput.style.boxShadow = '';
+              usernameInput.style.borderColor = '';
+              usernameInput.focus();
+            }, 900);
+            alert('Please enter a username (3-20 characters) — this is a demo input validation.');
+            return;
+          }
+
+          if(amount <= 0){
+            alert('Select an amount greater than 0 (this is a demo).');
+            return;
+          }
+
+          // update preview
+          previewStatus.textContent = 'processing';
+          // start simulated progress
+          simulateProgress(()=> {
+            // show success
+            sUser.textContent = name;
+            successText.innerHTML = `${amount} Robux have been <strong>simulated</strong> for <strong>${escapeHtml(name)}</strong>.`;
+            successCard.classList.add('show');
+
+            // update preview state
+            previewStatus.textContent = 'completed (demo)';
+          }, {
+            startText: 'Starting demo workflow...',
+            stageTexts: [
+              'Checking username validity (demo)...',
+              'Allocating mock Robux package...',
+              'Passing simulated fraud-safety checks...',
+              'Completing demo transfer...'
+            ]
+          });
+        });
+
+        newOne.addEventListener('click', ()=> {
+          successCard.classList.remove('show');
+          usernameInput.value = '';
+          setAmount(0);
+          previewUsername.textContent = '—';
+          previewStatusText.textContent = 'waiting';
+          usernameInput.focus();
+        });
+
+        document.getElementById('demoInfo').addEventListener('click', ()=> {
+          alert('Demo notes:\\n- No network requests are performed.\\n- This is safe to host on GitHub Pages.\\n- Do not use this as a real generator (it does not provide Robux).');
+        });
+
+        // small keyboard shortcut: Enter triggers generate
+        usernameInput.addEventListener('keydown', (e)=>{
+          if(e.key === 'Enter'){
+            generateBtn.click();
+          }
+        });
+      }
+
+      // small HTML escape (prevent trivial injection into innerHTML)
+      function escapeHtml(s) {
+        return String(s)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#039;');
+      }
+
+      // init amount default
+      setAmount(100);
+      wire();
+
+      // Expose small debug on window for convenience (demo-only)
+      window.RBXDEMO = {
+        setAmount,
+        showOverlay
+      };
+    })();
+  </script>
+
+  <!-- Disclaimer repeated for clarity (visible) -->
+  <div style="position:fixed;right:12px;bottom:12px;padding:10px 12px;border-radius:8px;background:rgba(0,0,0,0.45);border:1px solid rgba(13,255,120,0.06);color:var(--muted);font-size:12px">
+    Demo only — does not contact Roblox or give real Robux.
+  </div>
+</body>
+</html>
